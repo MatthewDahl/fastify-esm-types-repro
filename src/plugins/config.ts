@@ -6,7 +6,7 @@ export interface Config {
 
 export default fp(async (fastify) => {
   fastify.decorate('config', { value: 'test' })
-})
+}, { name: 'config' })
 
 declare module 'fastify' {
   interface FastifyInstance {

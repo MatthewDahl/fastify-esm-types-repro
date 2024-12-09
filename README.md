@@ -4,7 +4,7 @@ This repository demonstrates an issue with TypeScript type augmentations in ESM 
 
 ## The Issue
 
-When using ESM modules with TypeScript, plugin type augmentations aren't visible during test execution. This specifically affects projects where plugins depend on other plugins' type augmentations.
+When using ESM modules with TypeScript, plugin type augmentations aren't visible during test execution. This specifically affects projects where plugins depend on other plugins' type augmentations, causing runtime errors in tests despite TypeScript compilation succeeding.
 
 ## Steps to Reproduce
 
@@ -18,15 +18,23 @@ npm install
 npm test
 ```
 
-You'll see the scaffolded example tests fail with:
+The test fails with:
 ```
-AssertionError [ERR_ASSERTION]: The dependency 'config' of plugin 'feature-auto-1' is not registered
+✖ feature plugin type augmentations
+  TypeError [Error]: Cannot read properties of undefined (reading 'value')
+      at TestContext.<anonymous> (file:///path/to/test/plugins/feature.test.ts:6:30)
 ```
+
+This error shows that:
+- TypeScript compilation passes (types are visible)
+- But runtime access to plugin decorations fails
+- Plugin dependencies aren't properly loaded in test environment
 
 ## Project Structure
 
 - `src/plugins/config.ts`: Base plugin with type augmentations
 - `src/plugins/feature.ts`: Plugin that depends on `config` plugin's types
+- `test/plugins/feature.test.ts`: Test demonstrating the type augmentation issue
 
 ## Environment
 
