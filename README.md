@@ -38,4 +38,4 @@ AssertionError [ERR_ASSERTION]: The dependency 'config' of plugin 'feature-auto-
 
 ## Related Issue
 
-See the full discussion at: [fastify-cli issue link]
+See the full discussion at: https://github.com/fastify/fastify-cli/issues/781
