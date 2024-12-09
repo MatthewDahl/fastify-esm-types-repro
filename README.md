@@ -1,23 +1,41 @@
-# Getting Started with [Fastify-CLI](https://www.npmjs.com/package/fastify-cli)
-This project was bootstrapped with Fastify-CLI.
+# Fastify ESM TypeScript Type Augmentation Issue
 
-## Available Scripts
+This repository demonstrates an issue with TypeScript type augmentations in ESM modules when running tests with fastify-cli.
 
-In the project directory, you can run:
+## The Issue
 
-### `npm run dev`
+When using ESM modules with TypeScript, plugin type augmentations aren't visible during test execution. This specifically affects projects where plugins depend on other plugins' type augmentations.
 
-To start the app in dev mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Steps to Reproduce
 
-### `npm start`
+1. Install dependencies:
+```bash
+npm install
+```
 
-For production mode
+2. Run the tests:
+```bash
+npm test
+```
 
-### `npm run test`
+You'll see the scaffolded example tests fail with:
+```
+AssertionError [ERR_ASSERTION]: The dependency 'config' of plugin 'feature-auto-1' is not registered
+```
 
-Run the test cases.
+## Project Structure
 
-## Learn More
+- `src/plugins/config.ts`: Base plugin with type augmentations
+- `src/plugins/feature.ts`: Plugin that depends on `config` plugin's types
 
-To learn Fastify, check out the [Fastify documentation](https://fastify.dev/docs/latest/).
+## Environment
+
+- Node.js v20.x
+- TypeScript 5.x
+- fastify-cli 7.x
+- ESM modules enabled
+- Using `"module": "NodeNext"` in tsconfig.json
+
+## Related Issue
+
+See the full discussion at: [fastify-cli issue link]
