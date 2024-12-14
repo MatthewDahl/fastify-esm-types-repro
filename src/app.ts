@@ -29,15 +29,18 @@ const app: FastifyPluginAsync<AppOptions> = async (
   void fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'plugins'),
     options: opts,
-    forceESM: true
+    forceESM: true,
+    encapsulate: false
   })
 
   // This loads all plugins defined in routes
   // define your routes in one of these
   void fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'routes'),
+    dir: path.join(__dirname, 'modules'),
     options: opts,
-    forceESM: true
+    forceESM: true,
+    encapsulate: false,
+    maxDepth: 1
   })
 
 };
