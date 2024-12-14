@@ -15,7 +15,12 @@ const AppPath = path.join(__dirname, '..', 'src', 'app.ts')
 // Fill in this config with all the configurations
 // needed for testing the application
 async function config () {
-  return {}
+  return {
+    // Ensures plugin decorators are properly exposed in test environment
+    // See: https://github.com/fastify/fastify-cli#test-helpers
+    // See also: https://github.com/fastify/fastify-cli/issues/781#issuecomment-2541100755
+    skipOverride: true,
+  }
 }
 
 // Automatically build and tear down our instance
